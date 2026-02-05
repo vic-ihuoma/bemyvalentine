@@ -14,18 +14,27 @@
   let noButtonY = $state(0);
   let isDodging = $state(false);
   let noButtonEl: HTMLButtonElement | null = $state(null);
-  let containerEl: HTMLDivElement | null = $state(null);
+  let yesButtonEl: HTMLButtonElement | null = $state(null);
   let initialized = $state(false);
 
   let dodgeTimeout: ReturnType<typeof setTimeout> | null = null;
+  let lastDodgeTime = 0;
 
   onMount(() => {
-    // Position the No button initially to the right of center
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    noButtonX = vw / 2 + 80;
-    noButtonY = vh / 2 + 40;
-    initialized = true;
+    // Wait a tick for the Yes button to render, then place No right beside it
+    requestAnimationFrame(() => {
+      if (yesButtonEl) {
+        const yesRect = yesButtonEl.getBoundingClientRect();
+        noButtonX = yesRect.right + 40 + 60; // gap + half button width
+        noButtonY = yesRect.top + yesRect.height / 2;
+      } else {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        noButtonX = vw / 2 + 100;
+        noButtonY = vh / 2 + 60;
+      }
+      initialized = true;
+    });
 
     document.addEventListener("mousemove", handleMouseMove);
   });
@@ -37,6 +46,10 @@
 
   function handleMouseMove(e: MouseEvent) {
     if (!noButtonEl || !initialized) return;
+
+    // Throttle: don't re-dodge while a dodge animation is still playing
+    const now = Date.now();
+    if (now - lastDodgeTime < DODGE_ANIMATION_DURATION) return;
 
     const rect = noButtonEl.getBoundingClientRect();
     const buttonCenter = {
@@ -56,6 +69,7 @@
   ) {
     if (!noButtonEl) return;
 
+    lastDodgeTime = Date.now();
     isDodging = true;
     const rect = noButtonEl.getBoundingClientRect();
     const newPos = calculateDodgePosition(
@@ -75,7 +89,6 @@
   }
 
   function handleNoClick() {
-    // If somehow clicked, just dodge again
     if (!noButtonEl) return;
     const rect = noButtonEl.getBoundingClientRect();
     dodge(
@@ -91,38 +104,37 @@
   }
 </script>
 
-<div
-  class="flex min-h-screen flex-col items-center justify-center gap-12"
-  bind:this={containerEl}
->
+<div class="flex min-h-screen flex-col items-center justify-center gap-12">
   <h1 class="question-text">Will you be my Valentine?</h1>
 
-  <div class="relative flex items-center gap-16">
+  <div class="flex items-center gap-10">
     <!-- Yes button -->
-    <button class="yes-button" onclick={onYes}> Yes </button>
-
-    <!-- No button (absolutely positioned, dodges) -->
-    {#if initialized}
-      <button
-        bind:this={noButtonEl}
-        class="no-button"
-        onclick={handleNoClick}
-        style="
-          position: fixed;
-          left: {noButtonX}px;
-          top: {noButtonY}px;
-          transform: translate(-50%, -50%);
-          transition: left {DODGE_ANIMATION_DURATION}ms cubic-bezier(0.34, 1.56, 0.64, 1),
-                      top {DODGE_ANIMATION_DURATION}ms cubic-bezier(0.34, 1.56, 0.64, 1);
-        "
-      >
-        No
-        <span class="heart-guardian">
-          <WingedHeart dodging={isDodging} />
-        </span>
-      </button>
-    {/if}
+    <button bind:this={yesButtonEl} class="yes-button" onclick={onYes}>
+      Yes
+    </button>
   </div>
+
+  <!-- No button (fixed position, dodges away) -->
+  {#if initialized}
+    <button
+      bind:this={noButtonEl}
+      class="no-button"
+      onclick={handleNoClick}
+      style="
+        position: fixed;
+        left: {noButtonX}px;
+        top: {noButtonY}px;
+        transform: translate(-50%, -50%);
+        transition: left {DODGE_ANIMATION_DURATION}ms ease-out,
+                    top {DODGE_ANIMATION_DURATION}ms ease-out;
+      "
+    >
+      No
+      <span class="heart-guardian">
+        <WingedHeart dodging={isDodging} />
+      </span>
+    </button>
+  {/if}
 </div>
 
 <style>
@@ -169,7 +181,7 @@
 
   .heart-guardian {
     position: absolute;
-    top: -20px;
-    right: -15px;
+    top: -35px;
+    right: -30px;
   }
 </style>

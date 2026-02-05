@@ -8,31 +8,38 @@
 
 <div class="winged-heart" class:dodging>
   <svg
-    width="30"
-    height="24"
-    viewBox="0 0 30 24"
+    width="60"
+    height="48"
+    viewBox="0 0 60 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <!-- Left wing -->
     <g class="wing left-wing">
       <path
-        d="M8 10 C4 6, 0 8, 2 12 C3 14, 6 13, 8 12"
-        fill="#FFB6C1"
-        opacity="0.8"
+        d="M16 20 C10 10, -2 12, 2 22 C4 28, 12 26, 16 24"
+        fill="#E87DA9"
+        stroke="#C4608A"
+        stroke-width="1"
       />
+      <path d="M16 18 C12 12, 2 14, 5 20 C6 22, 12 22, 16 20" fill="#F2A0BE" />
     </g>
     <!-- Right wing -->
     <g class="wing right-wing">
       <path
-        d="M22 10 C26 6, 30 8, 28 12 C27 14, 24 13, 22 12"
-        fill="#FFB6C1"
-        opacity="0.8"
+        d="M44 20 C50 10, 62 12, 58 22 C56 28, 48 26, 44 24"
+        fill="#E87DA9"
+        stroke="#C4608A"
+        stroke-width="1"
+      />
+      <path
+        d="M44 18 C48 12, 58 14, 55 20 C54 22, 48 22, 44 20"
+        fill="#F2A0BE"
       />
     </g>
     <!-- Heart body -->
     <path
-      d="M15 20 C12 17, 7 14, 7 10 C7 7, 9 6, 11 6 C13 6, 14 7, 15 9 C16 7, 17 6, 19 6 C21 6, 23 7, 23 10 C23 14, 18 17, 15 20Z"
+      d="M30 40 C24 34, 14 28, 14 20 C14 14, 18 12, 22 12 C26 12, 28 14, 30 18 C32 14, 34 12, 38 12 C42 12, 46 14, 46 20 C46 28, 36 34, 30 40Z"
       fill="#FF69B4"
     />
   </svg>
@@ -50,11 +57,11 @@
   }
 
   .left-wing {
-    transform-origin: 8px 11px;
+    transform-origin: 16px 22px;
   }
 
   .right-wing {
-    transform-origin: 22px 11px;
+    transform-origin: 44px 22px;
   }
 
   @keyframes flap {
@@ -62,7 +69,7 @@
       transform: rotate(0deg);
     }
     100% {
-      transform: rotate(-15deg);
+      transform: rotate(-20deg);
     }
   }
 
@@ -71,7 +78,7 @@
       transform: rotate(0deg);
     }
     100% {
-      transform: rotate(15deg);
+      transform: rotate(20deg);
     }
   }
 
@@ -96,7 +103,7 @@
       transform: rotate(0deg);
     }
     100% {
-      transform: rotate(-25deg);
+      transform: rotate(-35deg);
     }
   }
 
@@ -105,7 +112,7 @@
       transform: rotate(0deg);
     }
     100% {
-      transform: rotate(25deg);
+      transform: rotate(35deg);
     }
   }
 </style>

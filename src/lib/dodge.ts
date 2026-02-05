@@ -26,9 +26,14 @@ export function calculateDodgePosition(
 ): Point {
   const dx = buttonCenter.x - cursor.x;
   const dy = buttonCenter.y - cursor.y;
-  const angle = Math.atan2(dy, dx);
+  const baseAngle = Math.atan2(dy, dx);
 
-  const dodgeDistance = DODGE_PROXIMITY_THRESHOLD + 100;
+  // Add random spread: pick a random angle within +-90 degrees of the away direction
+  // This ensures it always moves away from cursor but in varied directions
+  const randomSpread = (Math.random() - 0.5) * Math.PI;
+  const angle = baseAngle + randomSpread;
+
+  const dodgeDistance = DODGE_PROXIMITY_THRESHOLD + 150 + Math.random() * 150;
   let newX = buttonCenter.x + Math.cos(angle) * dodgeDistance;
   let newY = buttonCenter.y + Math.sin(angle) * dodgeDistance;
 

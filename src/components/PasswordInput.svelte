@@ -36,15 +36,18 @@
 </script>
 
 <div class="password-container" class:exiting={isExiting}>
-  <input
-    type="text"
-    bind:value
-    oninput={handleInput}
-    placeholder="🐑"
-    autocomplete="off"
-    spellcheck="false"
-    class="password-input"
-  />
+  <div class="input-row">
+    <input
+      type="text"
+      bind:value
+      oninput={handleInput}
+      placeholder="Enter password"
+      autocomplete="off"
+      spellcheck="false"
+      class="password-input"
+    />
+    <span class="sheep-hint">🐑</span>
+  </div>
 
   {#if showError}
     <p class="error-message">{errorMessage}</p>
@@ -91,7 +94,20 @@
   }
 
   .password-input::placeholder {
-    font-size: 1.5rem;
+    color: #b08a94;
+    font-size: 1rem;
+  }
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .sheep-hint {
+    font-size: 2.5rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
 
   .error-message {
