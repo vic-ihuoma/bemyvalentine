@@ -13,6 +13,7 @@
     type AppStep,
   } from "../lib/state";
   import { getNextValentineTarget } from "../lib/countdown";
+  import { DEBUG_MODE, DEBUG_COUNTDOWN_SECONDS } from "../lib/config";
 
   let currentStep: AppStep = $state("countdown");
   let isMobile = $state(false);
@@ -29,17 +30,23 @@
       isMobile = window.innerWidth < 1024;
     });
 
-    // Determine initial step
-    const savedStep = loadState();
-    currentStep = determineInitialStep(new Date(), savedStep);
+    if (DEBUG_MODE) {
+      // In debug mode, set a short countdown and start from countdown step
+      countdownTarget = new Date(Date.now() + DEBUG_COUNTDOWN_SECONDS * 1000);
+      currentStep = "countdown";
+    } else {
+      // Determine initial step from date and saved state
+      const savedStep = loadState();
+      currentStep = determineInitialStep(new Date(), savedStep);
 
-    // If resuming celebration, skip typewriter
-    if (currentStep === "celebration" && savedStep === "celebration") {
-      skipTypewriter = true;
+      // If resuming celebration, skip typewriter
+      if (currentStep === "celebration" && savedStep === "celebration") {
+        skipTypewriter = true;
+      }
+
+      // Update countdown target
+      countdownTarget = getNextValentineTarget();
     }
-
-    // Update countdown target
-    countdownTarget = getNextValentineTarget();
 
     ready = true;
   });
