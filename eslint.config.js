@@ -4,6 +4,27 @@ import tsparser from "@typescript-eslint/parser";
 import svelte from "eslint-plugin-svelte";
 import astro from "eslint-plugin-astro";
 
+const browserGlobals = {
+  window: "readonly",
+  document: "readonly",
+  localStorage: "readonly",
+  AudioContext: "readonly",
+  HTMLCanvasElement: "readonly",
+  HTMLInputElement: "readonly",
+  HTMLButtonElement: "readonly",
+  HTMLDivElement: "readonly",
+  CanvasRenderingContext2D: "readonly",
+  Event: "readonly",
+  MouseEvent: "readonly",
+  requestAnimationFrame: "readonly",
+  cancelAnimationFrame: "readonly",
+  setInterval: "readonly",
+  clearInterval: "readonly",
+  setTimeout: "readonly",
+  clearTimeout: "readonly",
+  console: "readonly",
+};
+
 export default [
   eslint.configs.recommended,
   ...astro.configs.recommended,
@@ -16,21 +37,7 @@ export default [
         ecmaVersion: "latest",
         sourceType: "module",
       },
-      globals: {
-        window: "readonly",
-        document: "readonly",
-        localStorage: "readonly",
-        AudioContext: "readonly",
-        HTMLCanvasElement: "readonly",
-        CanvasRenderingContext2D: "readonly",
-        requestAnimationFrame: "readonly",
-        cancelAnimationFrame: "readonly",
-        setInterval: "readonly",
-        clearInterval: "readonly",
-        setTimeout: "readonly",
-        clearTimeout: "readonly",
-        console: "readonly",
-      },
+      globals: browserGlobals,
     },
     plugins: {
       "@typescript-eslint": tseslint,
@@ -49,6 +56,7 @@ export default [
       parserOptions: {
         parser: tsparser,
       },
+      globals: browserGlobals,
     },
   },
   {
