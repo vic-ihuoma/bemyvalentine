@@ -14,30 +14,30 @@ A romantic Valentine's Day website for Josephine. The site cycles annually: it s
 
 ## 2. Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Astro (static site generation) |
-| UI Island | Svelte (single interactive island for all client-side logic) |
-| Styling | Tailwind CSS |
-| Language | TypeScript |
+| Layer      | Technology                                                                      |
+| ---------- | ------------------------------------------------------------------------------- |
+| Framework  | Astro (static site generation)                                                  |
+| UI Island  | Svelte (single interactive island for all client-side logic)                    |
+| Styling    | Tailwind CSS                                                                    |
+| Language   | TypeScript                                                                      |
 | Animations | SVG (clouds), HTML Canvas (celebration sparkles), CSS transitions (UI elements) |
-| Audio | Web Audio API (programmatic gentle piano melody) |
-| Linting | ESLint + Prettier |
-| Git Hooks | Husky (pre-commit: lint + tests) |
-| Testing | Vitest (unit tests) + Browser Agent skill with snapshots (visual smoke tests) |
-| Hosting | Cloudflare Pages |
-| Domain | bemyvalentinebaby.com (to be purchased and configured via Cloudflare) |
+| Audio      | Web Audio API (programmatic gentle piano melody)                                |
+| Linting    | ESLint + Prettier                                                               |
+| Git Hooks  | Husky (pre-commit: lint + tests)                                                |
+| Testing    | Vitest (unit tests) + Browser Agent skill with snapshots (visual smoke tests)   |
+| Hosting    | Cloudflare Pages                                                                |
+| Domain     | bemyvalentinebaby.com (to be purchased and configured via Cloudflare)           |
 
 ---
 
 ## 3. Color Palette (Blush)
 
-| Role | Color | Hex |
-|---|---|---|
-| Primary | Light Pink | `#FFB6C1` |
-| Accent | Hot Pink | `#FF69B4` |
+| Role                 | Color          | Hex       |
+| -------------------- | -------------- | --------- |
+| Primary              | Light Pink     | `#FFB6C1` |
+| Accent               | Hot Pink       | `#FF69B4` |
 | Neutral / Background | Lavender Blush | `#FFF0F5` |
-| Text | Dark Rose | `#4A0020` |
+| Text                 | Dark Rose      | `#4A0020` |
 
 **Gradient sky background:** Soft gradient from `#FFB6C1` (light pink) to a lavender/periwinkle tone, evoking a dreamy dawn sky. Used on the countdown page and as the base behind all screens.
 
@@ -45,12 +45,12 @@ A romantic Valentine's Day website for Josephine. The site cycles annually: it s
 
 ## 4. Typography
 
-| Use | Font | Style |
-|---|---|---|
-| Countdown timer | Monospace (JetBrains Mono or Space Mono) | Bold, large |
-| "Will you be my Valentine?" | Script/handwritten (e.g., Dancing Script, Pacifico) | Large, centered |
-| Body text / teaser / messages | Sans-serif (Inter or system font) | Regular weight |
-| "I love you Josephine" | Script font, same as Valentine question | Large, typewriter animation |
+| Use                           | Font                                                | Style                       |
+| ----------------------------- | --------------------------------------------------- | --------------------------- |
+| Countdown timer               | Monospace (JetBrains Mono or Space Mono)            | Bold, large                 |
+| "Will you be my Valentine?"   | Script/handwritten (e.g., Dancing Script, Pacifico) | Large, centered             |
+| Body text / teaser / messages | Sans-serif (Inter or system font)                   | Regular weight              |
+| "I love you Josephine"        | Script font, same as Valentine question             | Large, typewriter animation |
 
 Fonts loaded via Google Fonts or self-hosted for performance.
 
@@ -101,6 +101,7 @@ VALENTINE_QUESTION ──("Yes" clicked)──> CELEBRATION
 **Trigger:** Viewport width < 1024px (standard desktop breakpoint).
 
 **Content:**
+
 - Text: "Open me on your laptop for a surprise" in sans-serif, centered.
 - Below the text: a mini countdown timer showing the same contextual format as desktop.
 - Background: Same gradient sky as desktop.
@@ -117,12 +118,14 @@ VALENTINE_QUESTION ──("Yes" clicked)──> CELEBRATION
 **Target:** Midnight UTC, February 14th (`YYYY-02-14T00:00:00Z`).
 
 **Layout:**
+
 - Full viewport, gradient sky background (light pink to lavender/periwinkle).
 - Centered vertically and horizontally.
 - Teaser text: **"Patience, love..."** in sans-serif, subtle opacity, above the timer.
 - Countdown timer below in monospace font, bold, large.
 
 **Timer Format (Contextual):**
+
 - When > 1 day remaining: Show `X days, HH:MM:SS`
 - When <= 1 day remaining: Show `HH:MM:SS` only
 - Updates every second via `requestAnimationFrame` or `setInterval(1000)`.
@@ -136,6 +139,7 @@ VALENTINE_QUESTION ──("Yes" clicked)──> CELEBRATION
 **Trigger:** UTC date is February 14th and user has not yet completed the flow this year.
 
 **Animation sequence:**
+
 1. Screen shows SVG clouds covering the viewport in soft, layered formations. Light pink/white clouds on the gradient sky background.
 2. **Ambient motion:** Clouds gently float and drift (subtle horizontal translation + slight vertical bob) continuously.
 3. After a 1-2 second pause, clouds begin to **slowly part** toward the left and right edges of the screen over **3-5 seconds**.
@@ -153,6 +157,7 @@ VALENTINE_QUESTION ──("Yes" clicked)──> CELEBRATION
 **Trigger:** Clouds have finished parting.
 
 **Layout:**
+
 - Centered in the viewport, framed by clouds at edges.
 - Gradient sky background visible behind.
 - Single text input field, styled with rounded corners, soft shadow, light pink border.
@@ -160,6 +165,7 @@ VALENTINE_QUESTION ──("Yes" clicked)──> CELEBRATION
 - No submit button - auto-validates on keystroke.
 
 **Password logic:**
+
 - Correct password: `"sheep"` (configurable via a constant in source code for annual updates).
 - Input is normalized to lowercase before comparison: `input.trim().toLowerCase() === password`.
 - **Auto-validation:** On every `input` event, check if the current value (normalized) matches the password.
@@ -174,6 +180,7 @@ VALENTINE_QUESTION ──("Yes" clicked)──> CELEBRATION
 **Trigger:** Correct password entered.
 
 **Layout:**
+
 - Full viewport, clean gradient background (same gradient sky, no clouds).
 - Text: **"Will you be my Valentine?"** in script/handwritten font, large, centered in the upper third.
 - Two buttons below, horizontally spaced:
@@ -181,6 +188,7 @@ VALENTINE_QUESTION ──("Yes" clicked)──> CELEBRATION
   - **"No" button:** Rounded, neutral/white background, normal appearance. No glow.
 
 **"No" button dodge mechanics:**
+
 - A small **winged heart** character (CSS/SVG animated heart with tiny wings that flap gently) is **always visible** near the "No" button, positioned to its right or above it.
 - **Proximity detection:** When the mouse cursor comes within 100-150px of the "No" button's center, the dodge triggers.
 - **Dodge behavior:** The button (and its guardian heart) **smoothly animates** to a new position away from the cursor. The heart's wings **flap faster** during the dodge movement.
@@ -189,6 +197,7 @@ VALENTINE_QUESTION ──("Yes" clicked)──> CELEBRATION
 - **Pointer events on "No":** The button uses `pointer-events: none` is NOT used (we need hover detection). Instead, the dodge is fast enough to prevent clicks. If a click somehow occurs, it triggers another dodge instead of any action.
 
 **Heart with wings:**
+
 - Small (20-30px) SVG or CSS heart shape with two tiny wings.
 - Wings flap with a CSS animation (`@keyframes flap`) at a gentle pace normally, faster during dodges.
 - Positioned absolutely, follows the "No" button's position with a slight offset.
@@ -236,12 +245,12 @@ function getCurrentState(): AppState {
   const feb14 = new Date(Date.UTC(currentYear, 1, 14, 0, 0, 0)); // Month is 0-indexed
   const feb15 = new Date(Date.UTC(currentYear, 1, 15, 0, 0, 0));
 
-  const saved = localStorage.getItem('bemyvalentine_state');
+  const saved = localStorage.getItem("bemyvalentine_state");
   const parsed = saved ? JSON.parse(saved) : null;
 
   // Clear stale state from previous years
   if (parsed && parsed.year !== currentYear) {
-    localStorage.removeItem('bemyvalentine_state');
+    localStorage.removeItem("bemyvalentine_state");
     return determineStateFromDate(now, feb14, feb15);
   }
 
@@ -254,8 +263,8 @@ function getCurrentState(): AppState {
 }
 
 function determineStateFromDate(now, feb14, feb15): string {
-  if (now >= feb14 && now < feb15) return 'clouds'; // Feb 14 UTC
-  return 'countdown'; // Before Feb 14 or after Feb 14 (countdown to next year)
+  if (now >= feb14 && now < feb15) return "clouds"; // Feb 14 UTC
+  return "countdown"; // Before Feb 14 or after Feb 14 (countdown to next year)
 }
 ```
 
@@ -369,6 +378,7 @@ npx vitest run --reporter=verbose
 ```
 
 **lint-staged config (in package.json):**
+
 ```json
 {
   "lint-staged": {
@@ -384,16 +394,17 @@ npx vitest run --reporter=verbose
 
 ### Unit Tests (Vitest)
 
-| Test File | What It Tests |
-|---|---|
+| Test File           | What It Tests                                                                                                              |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `countdown.test.ts` | Countdown calculation: correct time remaining, contextual format switching, next-year rollover, edge cases at midnight UTC |
-| `password.test.ts` | Password normalization (case insensitivity, trimming, exact match), wrong password detection at correct length |
-| `state.test.ts` | localStorage read/write/clear, year-based reset, state transitions |
-| `dodge.test.ts` | Proximity detection math, dodge direction calculation, viewport wrapping logic, boundary clamping |
+| `password.test.ts`  | Password normalization (case insensitivity, trimming, exact match), wrong password detection at correct length             |
+| `state.test.ts`     | localStorage read/write/clear, year-based reset, state transitions                                                         |
+| `dodge.test.ts`     | Proximity detection math, dodge direction calculation, viewport wrapping logic, boundary clamping                          |
 
 ### Visual Smoke Tests
 
 Using the browser agent skill with snapshots saved to `tests/snapshots/`. These capture key visual states:
+
 - Countdown screen appearance
 - Cloud animation (pre-part and post-part)
 - Password input with cloud framing
