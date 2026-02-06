@@ -8,34 +8,43 @@ import {
 
 describe("getNextValentineTarget", () => {
   it("returns current year Feb 14 when before that date", () => {
-    const jan1 = new Date(Date.UTC(2026, 0, 1, 12, 0, 0));
+    const jan1 = new Date(2026, 0, 1, 12, 0, 0);
     const target = getNextValentineTarget(jan1);
-    expect(target.toISOString()).toBe("2026-02-14T00:00:00.000Z");
+    expect(target.getFullYear()).toBe(2026);
+    expect(target.getMonth()).toBe(1);
+    expect(target.getDate()).toBe(14);
+    expect(target.getHours()).toBe(0);
   });
 
   it("returns next year Feb 14 when on Feb 14", () => {
-    const feb14 = new Date(Date.UTC(2026, 1, 14, 0, 0, 0));
+    const feb14 = new Date(2026, 1, 14, 0, 0, 0);
     const target = getNextValentineTarget(feb14);
-    expect(target.toISOString()).toBe("2027-02-14T00:00:00.000Z");
+    expect(target.getFullYear()).toBe(2027);
+    expect(target.getMonth()).toBe(1);
+    expect(target.getDate()).toBe(14);
   });
 
   it("returns next year Feb 14 when after Feb 14", () => {
-    const march1 = new Date(Date.UTC(2026, 2, 1, 0, 0, 0));
+    const march1 = new Date(2026, 2, 1, 0, 0, 0);
     const target = getNextValentineTarget(march1);
-    expect(target.toISOString()).toBe("2027-02-14T00:00:00.000Z");
+    expect(target.getFullYear()).toBe(2027);
+    expect(target.getMonth()).toBe(1);
+    expect(target.getDate()).toBe(14);
   });
 
   it("returns current year Feb 14 when on Feb 13", () => {
-    const feb13 = new Date(Date.UTC(2026, 1, 13, 23, 59, 59));
+    const feb13 = new Date(2026, 1, 13, 23, 59, 59);
     const target = getNextValentineTarget(feb13);
-    expect(target.toISOString()).toBe("2026-02-14T00:00:00.000Z");
+    expect(target.getFullYear()).toBe(2026);
+    expect(target.getMonth()).toBe(1);
+    expect(target.getDate()).toBe(14);
   });
 });
 
 describe("calculateCountdown", () => {
   it("calculates correct days, hours, minutes, seconds", () => {
-    const now = new Date(Date.UTC(2026, 1, 12, 10, 30, 45));
-    const target = new Date(Date.UTC(2026, 1, 14, 0, 0, 0));
+    const now = new Date(2026, 1, 12, 10, 30, 45);
+    const target = new Date(2026, 1, 14, 0, 0, 0);
     const result = calculateCountdown(now, target);
 
     expect(result.days).toBe(1);
@@ -46,8 +55,8 @@ describe("calculateCountdown", () => {
   });
 
   it("returns isComplete when target is reached", () => {
-    const now = new Date(Date.UTC(2026, 1, 14, 0, 0, 0));
-    const target = new Date(Date.UTC(2026, 1, 14, 0, 0, 0));
+    const now = new Date(2026, 1, 14, 0, 0, 0);
+    const target = new Date(2026, 1, 14, 0, 0, 0);
     const result = calculateCountdown(now, target);
 
     expect(result.isComplete).toBe(true);
@@ -55,15 +64,15 @@ describe("calculateCountdown", () => {
   });
 
   it("returns isComplete when past target", () => {
-    const now = new Date(Date.UTC(2026, 1, 14, 1, 0, 0));
-    const target = new Date(Date.UTC(2026, 1, 14, 0, 0, 0));
+    const now = new Date(2026, 1, 14, 1, 0, 0);
+    const target = new Date(2026, 1, 14, 0, 0, 0);
     const result = calculateCountdown(now, target);
 
     expect(result.isComplete).toBe(true);
   });
 
   it("handles exactly 0 seconds remaining", () => {
-    const target = new Date(Date.UTC(2026, 1, 14, 0, 0, 0));
+    const target = new Date(2026, 1, 14, 0, 0, 0);
     const result = calculateCountdown(target, target);
 
     expect(result.days).toBe(0);
@@ -74,8 +83,8 @@ describe("calculateCountdown", () => {
   });
 
   it("handles sub-day countdown correctly", () => {
-    const now = new Date(Date.UTC(2026, 1, 13, 20, 0, 0));
-    const target = new Date(Date.UTC(2026, 1, 14, 0, 0, 0));
+    const now = new Date(2026, 1, 13, 20, 0, 0);
+    const target = new Date(2026, 1, 14, 0, 0, 0);
     const result = calculateCountdown(now, target);
 
     expect(result.days).toBe(0);
@@ -148,24 +157,16 @@ describe("formatCountdown", () => {
 });
 
 describe("isValentinesDay", () => {
-  it("returns true on Feb 14 UTC", () => {
-    expect(isValentinesDay(new Date(Date.UTC(2026, 1, 14, 0, 0, 0)))).toBe(
-      true,
-    );
-    expect(isValentinesDay(new Date(Date.UTC(2026, 1, 14, 23, 59, 59)))).toBe(
-      true,
-    );
+  it("returns true on Feb 14 local time", () => {
+    expect(isValentinesDay(new Date(2026, 1, 14, 0, 0, 0))).toBe(true);
+    expect(isValentinesDay(new Date(2026, 1, 14, 23, 59, 59))).toBe(true);
   });
 
   it("returns false on Feb 13", () => {
-    expect(isValentinesDay(new Date(Date.UTC(2026, 1, 13, 23, 59, 59)))).toBe(
-      false,
-    );
+    expect(isValentinesDay(new Date(2026, 1, 13, 23, 59, 59))).toBe(false);
   });
 
   it("returns false on Feb 15", () => {
-    expect(isValentinesDay(new Date(Date.UTC(2026, 1, 15, 0, 0, 0)))).toBe(
-      false,
-    );
+    expect(isValentinesDay(new Date(2026, 1, 15, 0, 0, 0))).toBe(false);
   });
 });
