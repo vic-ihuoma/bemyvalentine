@@ -8,14 +8,14 @@ export interface CountdownResult {
 }
 
 export function getNextValentineTarget(now: Date = new Date()): Date {
-  const year = now.getUTCFullYear();
-  const feb14 = new Date(Date.UTC(year, 1, 14, 0, 0, 0));
+  const year = now.getFullYear();
+  const feb14 = new Date(year, 1, 14, 0, 0, 0);
 
   if (now < feb14) {
     return feb14;
   }
 
-  return new Date(Date.UTC(year + 1, 1, 14, 0, 0, 0));
+  return new Date(year + 1, 1, 14, 0, 0, 0);
 }
 
 export function calculateCountdown(
@@ -59,5 +59,5 @@ export function formatCountdown(result: CountdownResult): string {
 }
 
 export function isValentinesDay(now: Date = new Date()): boolean {
-  return now.getUTCMonth() === 1 && now.getUTCDate() === 14;
+  return now.getMonth() === 1 && now.getDate() === 14;
 }

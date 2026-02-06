@@ -13,7 +13,7 @@ interface SavedState {
 }
 
 export function saveState(step: AppStep): void {
-  const year = new Date().getUTCFullYear();
+  const year = new Date().getFullYear();
   const state: SavedState = { year, step };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
@@ -24,7 +24,7 @@ export function loadState(): AppStep | null {
 
   try {
     const parsed: SavedState = JSON.parse(raw);
-    const currentYear = new Date().getUTCFullYear();
+    const currentYear = new Date().getFullYear();
 
     if (parsed.year !== currentYear) {
       localStorage.removeItem(STORAGE_KEY);
@@ -46,9 +46,9 @@ export function determineInitialStep(
   now: Date = new Date(),
   savedStep: AppStep | null = null,
 ): AppStep {
-  const year = now.getUTCFullYear();
-  const feb14Start = new Date(Date.UTC(year, 1, 14, 0, 0, 0));
-  const feb15Start = new Date(Date.UTC(year, 1, 15, 0, 0, 0));
+  const year = now.getFullYear();
+  const feb14Start = new Date(year, 1, 14, 0, 0, 0);
+  const feb15Start = new Date(year, 1, 15, 0, 0, 0);
   const isValentines = now >= feb14Start && now < feb15Start;
 
   if (savedStep === "celebration" && isValentines) {
